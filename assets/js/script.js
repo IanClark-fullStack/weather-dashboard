@@ -72,6 +72,12 @@ currentIcon.attr('class', 'fas fa-meteor display-4');
 currentIcon.attr('id', 'weatherIcon');
 iconsWrapper.append(currentIcon);
 
+// Weather Info Section 
+var weatherRow = $('#weather-info');
+var cityTitle = $('<h3>');
+weatherRow.append(cityTitle);
+var dateToday; 
+
 
 // Get footer
 var footerWrapper = $('footer');
@@ -144,30 +150,23 @@ var getLocationData = function (byCity) { // byCity (formerly known as cityInput
 var passLocationData = function (dataArray) {
     
     var nameFromData = dataArray[0].name; // City Name
+    cityTitle.text(nameFromData);
     var latFromData = dataArray[0].lat; 
     var lonFromData = dataArray[0].lon;
     // Store the Value in localStorage
-    var coordObject = {'latitude': latFromData, 'longitude': lonFromData}; 
-    localStorage.setItem(nameFromData, JSON.stringify(coordObject));
+    // var coordObject = {'latitude': latFromData, 'longitude': lonFromData}; 
+    localStorage.setItem(nameFromData, JSON.stringify({'latitude': latFromData, 'longitude': lonFromData}));
 
     // Build One Call API Link 
     var weatherFromCity = `https://api.openweathermap.org/data/2.5/onecall?lat=${latFromData}&lon=${lonFromData}&units=imperial&appid=0fd53ef282c951d78c31e6297a8aa1a5`;
 
     fetch(weatherFromCity)
         .then(function (response) { // When the server responds
-
         // Then, execute a function with the Response Data Recieved
             if (response.ok) { // Check the Status of the Response
                 // If we're good, Convert the response to a JSON Array
                 response.json().then(function (data) { // Data (formerly known as JSON Array) 
-                // Data = returned Json array // user = the name typed in
-                // displayRepos(data, user); // Step 3 
                     setWeatherData(data);
-                    // var nameFromData = $(data[0].name);
-                    // var lonFromData = $(data[0].lon);
-                    // var latFromData = $(data[0].lat);
-
-                    // passLocationData(nameFromData, lonFromData, latFromData); // 4.
                 });
             } else { // to status not 200
                 alert('Error: ' + response.statusText);
@@ -180,6 +179,44 @@ var passLocationData = function (dataArray) {
 }
 
 var setWeatherData = function (dataConditions) {
+    var mostCurrent = $(dataConditions.current.weather); // main, id, icon, etc Object
+    var weatherName = mostCurrent[0].main; // Clouds
+    // Switch Icons 
+    switch (weatherName) {
+        case 'Clouds':
+            currentIcon.attr('class', 'fas fa-cloud');
+            break;
+        case 'Thunderstorm':
+            currentIcon.attr('class', 'fas fa-bolt');
+            break;
+        case 'Drizzle':
+            currentIcon.attr('class', 'fas fa-cloud-sun-rain');
+            break;
+        case 'Rain':
+            currentIcon.attr('class', 'fas fa-cloud-rain');
+            break;
+        case 'Snow':
+            currentIcon.attr('class', 'fas fa-snowflake');
+            break;
+        case 'Clear':
+            currentIcon.attr('class', 'fas fa-sun');
+            break;
+        case 'Fog':
+            currentIcon.attr('class', 'fas fa-smog');
+            break;
+        case 'Mist':
+            currentIcon.attr('class', 'fas fa-cloud-rain');
+            break;
+        case 'Smoke':
+            currentIcon.attr('class', 'fas fa-smog');
+            break;
+    }
+    // Current Weather Conditions from Server
+    var dateToday = $('#current-date');
+    // Create a new Date Instance by Converting Unix * MS, and formatting in readable terms 
+    var convertUnix = new Date(dataConditions.current.dt*1000).toLocaleDateString();
+    console.log(convertUnix);
+    dateToday.text(convertUnix);
     var tempVal = $('#tempValue'); // span
     tempVal.text(dataConditions.current.temp);
     var windVal = $('#windValue'); // span
@@ -261,7 +298,7 @@ function generateComponents() {
     // Generate Section Components
     // If Local Stoarage Values Are NULL, display none to list items 
 
-    generateWeather(); // 2. 
+    // generateWeather(); // 2. 
     
     
     
@@ -269,23 +306,21 @@ function generateComponents() {
 }
 
 //
-function generateWeather() {
-    var weatherRow = $('#weather-info');
-   
-    var resultsWrapper = $(`<div class="mb-auto p-2">`);
-    weatherRow.append(resultsWrapper);
-    var resultList = $('<ul>'); 
-    resultsWrapper.append(resultList);
+// function generateWeather() {
+//     // var weatherRow = $('#weather-info');
+//     // cityTitle.text('Current City Title');
+//     // cityWrapper.append(cityTitle);
+    
+//     // resultsWrapper.append(resultList);
 
 
-    var cityWrapper = $(`<div class="p-2">`);
-    weatherRow.append(cityWrapper);
-    var cityTitle = $('<h3>');
-    cityTitle.text('Current City Title');
-    cityWrapper.append(cityTitle);
+//     // var cityWrapper = $(`<div class="p-2">`);
+//     // weatherRow.append(cityWrapper);
+    
+    
     
 
-}
+// }
 
 
 
