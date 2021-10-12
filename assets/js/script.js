@@ -1,46 +1,3 @@
-// GIVEN a weather dashboard with form inputs
-// WHEN I search for a city
-// THEN I am presented with current and future conditions for that city and that city is added to the search history
-// WHEN I view current weather conditions for that city
-// THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
-// WHEN I view the UV index
-// THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-// WHEN I view future weather conditions for that city
-// THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
-// WHEN I click on a city in the search history
-// THEN I am again presented with current and future conditions for that city
-
-
-
-/*                      OPEN WEATHER API KEY 
-__________________________|0fd53ef282c951d78c31e6297a8aa1a5|__________________________
-*/
-
-/* 
-_______________________________ Notes From Class _______________________________ 
-    -- Optionally use bootstrap, jQuery and moment js
-    -- Start with code that remembers previously searched cities
-    -- On search > fetch call to weather API
-        -- Current Weather + 5 day forecast 
-        -- One call and coordinates
-        and 15
-        -- /geo/ pssed in to One Call
-        -- second endPoint to capture lat and long of the city (in open weather app docs)
-
-        -- insomnia  
-            -- Plugin root domain, add api key 
-            -- modify the query section 
-
-            -- translate it js 
-                -- fetch (query from insomnia)
-                    -- in the second .then, perform another fetch, this time to the URl of the object values we are looking for when the search returns
-
-
-*/
-// Open Weather API Key (Delete After Deployment)
-
-const apiPlug = $('0fd53ef282c951d78c31e6297a8aa1a5');
-
 
 // Global Variables 
 var headerWrapper = $('header');
@@ -56,10 +13,6 @@ var navToggle = $('<span>');
 var navCollapse = $('<div>');
 // Generate Nav UL 
 var navUl = $('<ul>');
-// // Generate Nav Li 
-// var navLi = $('<li>');
-// // Generate Nav Links 
-// var navLink = $('<a>');
 
 // Get Main 
 var mainWrapper = $('main');
@@ -82,8 +35,6 @@ var dateToday;
 var forecastIcon = $('#forecast-icon');
 var smallDate = $('.sm-date');
 var listGroup = ('.list-group');
-// Get footer
-var footerWrapper = $('footer');
 
 // Global Form Variables - Generate Elements
 var formWrapper = $('<form>');
@@ -110,47 +61,31 @@ var $dailyArray = [$day2, $day3, $day4, $day5, $day6];
 //  Handling Form Submission CallBack 
 $(formSubmit).on('click', function(event) {
     event.preventDefault(); // Prevent page reload 
-    cityInput = formInput.val().trim(); // Capture the input Value
-    // console.log(cityInput);
-
+    cityInput = formInput.val().trim(); // Capture the input Value0
     // Next Step : Build an API call using that value 
     getLocationData(cityInput); // 3. 
+    var $section = $('section');
+    $section.attr('class', 'd-block')
 });
 
 // Handling Clicks on Previously Searched Cities 
-
 var navSubmit = function(event) {
     event.preventDefault();
     var prevInput = $(this).text();
     getLocationData(prevInput); 
+    var $section = $('section');
+    $section.attr('class', 'd-block')
 }
-
-
 // Building The API Call 
 var getLocationData = function (byCity) { // byCity (formerly known as cityInput)
     var dataFromCity = `http://api.openweathermap.org/geo/1.0/direct?q=${byCity}&limit=5&appid=0fd53ef282c951d78c31e6297a8aa1a5`;
-
     fetch(dataFromCity)
-        .then(function (response) { // When the server responds
-
+        .then(function (response) { // When the server responds,
         // Then, execute a function with the Response Data Recieved
             if (response.ok) { // Check the Status of the Response
                 // If we're good, Convert the response to a JSON Array
                 response.json().then(function (data) { // Data (formerly known as JSON Array) 
-                // Data = returned Json array // user = the name typed in
-                // displayRepos(data, user); // Step 3 
-                    console.log(data);
-                    /* Results from Data Response 
-                        0 index
-                            country: Us
-                            lat: num
-                            name: 'Chicago'
-                            lon: num 
-                            state: 'IL'
-                    */
                     passLocationData(data);
-
-                    
                 });
             } else { // to status not 200
                 alert('Error: ' + response.statusText);
@@ -163,22 +98,17 @@ var getLocationData = function (byCity) { // byCity (formerly known as cityInput
 
 // Formerly known as data
 var passLocationData = function (dataArray) {
-    // Local storage todo
     var nameFromData = dataArray[0].name; // City Name
     cityTitle.text(nameFromData);
-    var latFromData = dataArray[0].lat; 
+    var latFromData = dataArray[0].lat; // Get coordinates
     var lonFromData = dataArray[0].lon;
     if (localArray.indexOf(nameFromData) === -1) {
-        localArray.push(nameFromData);
+        localArray.push(nameFromData); // If the new search term does not exist in Local, add it
     }
-    
-    console.log(localArray);
     // Store the Value in localStorage
     localStorage.setItem('cities', JSON.stringify(localArray));
-    
     // Build One Call API Link 
     var weatherFromCity = `https://api.openweathermap.org/data/2.5/onecall?lat=${latFromData}&lon=${lonFromData}&units=imperial&appid=0fd53ef282c951d78c31e6297a8aa1a5`;
-
     fetch(weatherFromCity)
         .then(function (response) { // When the server responds
         // Then, execute a function with the Response Data Recieved
@@ -194,49 +124,45 @@ var passLocationData = function (dataArray) {
         .catch(function (error) {
         alert('Unable to connect');
         });
-
 }
 
-
-
 var setWeatherData = function (dataConditions) {
-    var mostCurrent = $(dataConditions.current.weather); // main, id, icon, etc Object
-    var weatherName = mostCurrent[0].main; // Clouds
+    var mostCurrent = $(dataConditions.current.weather); 
+    var weatherName = mostCurrent[0].main; 
     console.log(weatherName);
     // Switch Icons 
     switch (weatherName) {
         case 'Clouds':
-            currentIcon.attr('class', 'fas fa-cloud');
+            currentIcon.attr('class', 'fas fa-cloud display-4');
             break;
         case 'Thunderstorm':
-            currentIcon.attr('class', 'fas fa-bolt');
+            currentIcon.attr('class', 'fas fa-bolt display-4');
             break;
         case 'Drizzle':
-            currentIcon.attr('class', 'fas fa-cloud-sun-rain');
+            currentIcon.attr('class', 'fas fa-cloud-sun-rain display-4');
             break;
         case 'Rain':
-            currentIcon.attr('class', 'fas fa-cloud-rain');
+            currentIcon.attr('class', 'fas fa-cloud-rain display-4');
             break;
         case 'Snow':
-            currentIcon.attr('class', 'fas fa-snowflake');
+            currentIcon.attr('class', 'fas fa-snowflake display-4');
             break;
         case 'Clear':
-            currentIcon.attr('class', 'fas fa-sun');
+            currentIcon.attr('class', 'fas fa-sun display-4');
             break;
         case 'Fog':
-            currentIcon.attr('class', 'fas fa-smog');
+            currentIcon.attr('class', 'fas fa-smog display-4');
             break;
         case 'Mist':
-            currentIcon.attr('class', 'fas fa-cloud-rain');
+            currentIcon.attr('class', 'fas fa-cloud-rain display-4');
             break;
         case 'Smoke':
-            currentIcon.attr('class', 'fas fa-smog');
+            currentIcon.attr('class', 'fas fa-smog display-4');
             break;
     }
-
+    // Grab The Daily Weather Array
     var dailyValues = dataConditions.daily;
-    console.log(dailyValues);
-
+    // Iterate and create the list elements dynamically, assigning text content on each iteration. 
     for (var i=0; i<5; i++) {
         var currentDayData = dailyValues[i+1];
         var $tempContainer = $('#tempContainer');
@@ -254,11 +180,9 @@ var setWeatherData = function (dataConditions) {
         $small.attr('class', 'mx-1');
         $h5.append($small);
         var $i = $('<i>');
-
+        // Reassign Icons
         var forecastIcon = $i;
-        // var forecastIcon = $(currentDayId.find('i'));
         var currentDayIcon = currentDayData.weather[0].main;
-        
         switch (currentDayIcon) {
             case 'Clouds':
                 forecastIcon.attr('class', 'fas fa-cloud');
@@ -288,94 +212,63 @@ var setWeatherData = function (dataConditions) {
                 forecastIcon.attr('class', 'fas fa-smog');
                 break;
         }
-        
-        
         $small.append($i);
-
+        // Each Time we Iterate, we need to assign 4 list items to the page
         var $ul = $('<ul>');
         $ul.attr('class', 'list-unstyled');
         $divFlex.append($ul);
 
-        var $li = $('<li>'); // Day 1
+        var $li = $('<li>'); // Item 1
         $ul.append($li);
         var $p = $('<p>');
-        $p.attr('id', 'temp'); // Set text values to Temperature
+        $p.attr('id', 'temp'); // Set text values to 
         $p.text('Temperature: ');
         $li.append($p);
         var $span = $('<span>');
         $span.text(currentDayData.temp.day);
         $p.append($span);
 
-        var $li = $('<li>'); // Day 1
+        var $li = $('<li>'); // item 2
         $ul.append($li);
         var $p = $('<p>');
-        $p.attr('id', 'wind'); // Set text values to Temperature
+        $p.attr('id', 'wind'); // Set text values to 
         $p.text('Wind Speed: ');
         $li.append($p);
         var $span = $('<span>');
         $span.text(currentDayData.wind_gust);
         $p.append($span);
 
-        var $li = $('<li>'); // Day 1
+        var $li = $('<li>'); // Item 3 1
         $ul.append($li);
         var $p = $('<p>');
-        $p.attr('id', 'hum'); // Set text values to Temperature
+        $p.attr('id', 'hum'); // Set text values 
         $p.text('Humidity');
         $li.append($p);
         var $span = $('<span>');
         $span.text(currentDayData.humidity);
         $p.append($span);
         
-        var $li = $('<li>'); // Day 1
+        var $li = $('<li>'); // Item 4
         $ul.append($li);
         var $p = $('<p>');
-        $p.attr('id', 'uvi'); // Set text values to Temperature
+        $p.attr('id', 'uvi'); // Set text values
         $p.text('Uvi: ');
         $li.append($p);
         var $span = $('<span>');
         $span.text(currentDayData.uvi);
         $p.append($span);
-        
-        
 
-
-
-
-        var currentDayId = $dailyArray[i];
-       
-        // console.log(currentDayData.temp.day);
-         // Gets weeklong weather 
-        
-        // var $nextTemp = $('data-temp');
-        // console.log($nextTemp);
-        // $nextTemp.text(currentDayData.temp.day);
-        // var $nextHum = $('#nextHum'+i);
-        // console.log($nextHum);
-        // $nextHum.text(currentDayData.humidity);
-        // var $nextWind = $('#nextWind');
-        // $nextWind.text(currentDayData.wind_gust);
-        // var $nextUvi = $('#nextUvi');
-        // $nextUvi.text(currentDayData.uvi);
-        
-        
-        
-        
     }
-    // Conditionals for Forecast Icons 
 
-    // Current Weather Conditions from Server
     var dateToday = $('#current-date');
     // Create a new Date Instance by Converting Unix * MS, and formatting in readable terms 
     var convertUnix = new Date(dataConditions.current.dt*1000).toLocaleDateString();
     
-
     dateToday.text(convertUnix);
     var tempVal = $('#tempValue'); // span
     tempVal.text(dataConditions.current.temp);
     var windVal = $('#windValue'); // span
     windVal.text(`${dataConditions.current.wind_speed} mph`);
-    var rainVal = $('#rainValue'); // span
-    rainVal.text(dataConditions.current.rain);
     var humVal = $('#humValue'); // span
     humVal.text(dataConditions.current.humidity);
     var uviVal = $('#uviValue'); // span
@@ -384,14 +277,14 @@ var setWeatherData = function (dataConditions) {
 
 // 1. Dynamically Apply Components and Paint them to the Page
 function generateComponents() {
-
+    
     var storedCities = JSON.parse(localStorage.getItem('cities'));
 
-
+    // First thing in Function Execution is To Check Local Storage to See if we have any Values to work with, 
     if (storedCities !== null) {
         localArray = storedCities;
-    console.log(localArray);
     }
+    // If we do, use a while Loop to paint them to the page
     let j = 0; 
     while (j<5) {
         // Generate Nav Li 
@@ -411,8 +304,6 @@ function generateComponents() {
         navLink.on('click', navSubmit);
         j++;
     }
-
-    
     // Generate Nav Bar 
     navigation.attr('class', 'navbar navbar-expand-md navbar-light bg-light');
     headerWrapper.append(navigation);
@@ -445,9 +336,6 @@ function generateComponents() {
     // Generate Ul 
     navUl.attr('class', 'navbar-nav');
     navCollapse.append(navUl);
-
-
-
     // Generate Form Styles 
     // formWrapper.attr('class', 'form-inline'); 
     headerWrapper.append(formWrapper);
@@ -467,43 +355,6 @@ function generateComponents() {
     formSubmit.text('Search'); 
     formSubmit.attr('id', 'citySubmit');
     autoInput.append(formSubmit);
-
-   
-
-    // Generate Section Components
-    // If Local Stoarage Values Are NULL, display none to list items 
-
-    // Generate Event Listeners for Nav Items 
-    // generateListener();
-    
-    
-    
 }
-// var generateListener = function() {
-//     for (i=0; i<localArray.length; )
-// }
-//
-// function generateWeather() {
-//     // var weatherRow = $('#weather-info');
-//     // cityTitle.text('Current City Title');
-//     // cityWrapper.append(cityTitle);
-    
-//     // resultsWrapper.append(resultList);
 
-
-//     // var cityWrapper = $(`<div class="p-2">`);
-//     // weatherRow.append(cityWrapper);
-    
-    
-    
-
-// }
-
-
-
-
-
-
-
-
-generateComponents(); // 1
+generateComponents(); 
