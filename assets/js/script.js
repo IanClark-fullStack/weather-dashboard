@@ -237,14 +237,28 @@ var setWeatherData = function (dataConditions) {
     var dailyValues = dataConditions.daily;
     console.log(dailyValues);
 
-    for (let i=0; i<$dailyArray.length; i++) {
-        var currentDayId = $dailyArray[i];
+    for (var i=0; i<5; i++) {
         var currentDayData = dailyValues[i+1];
-        console.log(currentDayData);
-        var currentDayIcon = currentDayData.weather[0].main; // Gets weeklong weather 
-        var forecastIcon = $(currentDayId.find('i'));
-        console.log(currentDayIcon)
-        var forecastDate = new Date(currentDayData.dt*1000).toLocaleDateString();
+        var $tempContainer = $('#tempContainer');
+        var $scrollContainer = $('<a>');
+        $scrollContainer.attr('class', 'list-group-item list-group-item-action flex-column align-items-start border border-dark');
+        $tempContainer.append($scrollContainer);
+        var $divFlex = $('<div>');
+        $divFlex.attr('class', 'd-flex w-100');
+        $scrollContainer.append($divFlex);
+        var $h5 = $('<h5>');
+        $h5.attr('class', 'mb-1');
+        $h5.text(new Date(currentDayData.dt*1000).toLocaleDateString());
+        $divFlex.append($h5);
+        var $small = $('<small>');
+        $small.attr('class', 'mx-1');
+        $h5.append($small);
+        var $i = $('<i>');
+
+        var forecastIcon = $i;
+        // var forecastIcon = $(currentDayId.find('i'));
+        var currentDayIcon = currentDayData.weather[0].main;
+        
         switch (currentDayIcon) {
             case 'Clouds':
                 forecastIcon.attr('class', 'fas fa-cloud');
@@ -274,6 +288,78 @@ var setWeatherData = function (dataConditions) {
                 forecastIcon.attr('class', 'fas fa-smog');
                 break;
         }
+        
+        
+        $small.append($i);
+
+        var $ul = $('<ul>');
+        $ul.attr('class', 'list-unstyled');
+        $divFlex.append($ul);
+
+        var $li = $('<li>'); // Day 1
+        $ul.append($li);
+        var $p = $('<p>');
+        $p.attr('id', 'temp'); // Set text values to Temperature
+        $p.text('Temperature: ');
+        $li.append($p);
+        var $span = $('<span>');
+        $span.text(currentDayData.temp.day);
+        $p.append($span);
+
+        var $li = $('<li>'); // Day 1
+        $ul.append($li);
+        var $p = $('<p>');
+        $p.attr('id', 'wind'); // Set text values to Temperature
+        $p.text('Wind Speed: ');
+        $li.append($p);
+        var $span = $('<span>');
+        $span.text(currentDayData.wind_gust);
+        $p.append($span);
+
+        var $li = $('<li>'); // Day 1
+        $ul.append($li);
+        var $p = $('<p>');
+        $p.attr('id', 'hum'); // Set text values to Temperature
+        $p.text('Humidity');
+        $li.append($p);
+        var $span = $('<span>');
+        $span.text(currentDayData.humidity);
+        $p.append($span);
+        
+        var $li = $('<li>'); // Day 1
+        $ul.append($li);
+        var $p = $('<p>');
+        $p.attr('id', 'uvi'); // Set text values to Temperature
+        $p.text('Uvi: ');
+        $li.append($p);
+        var $span = $('<span>');
+        $span.text(currentDayData.uvi);
+        $p.append($span);
+        
+        
+
+
+
+
+        var currentDayId = $dailyArray[i];
+       
+        // console.log(currentDayData.temp.day);
+         // Gets weeklong weather 
+        
+        // var $nextTemp = $('data-temp');
+        // console.log($nextTemp);
+        // $nextTemp.text(currentDayData.temp.day);
+        // var $nextHum = $('#nextHum'+i);
+        // console.log($nextHum);
+        // $nextHum.text(currentDayData.humidity);
+        // var $nextWind = $('#nextWind');
+        // $nextWind.text(currentDayData.wind_gust);
+        // var $nextUvi = $('#nextUvi');
+        // $nextUvi.text(currentDayData.uvi);
+        
+        
+        
+        
     }
     // Conditionals for Forecast Icons 
 

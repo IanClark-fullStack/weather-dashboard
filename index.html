@@ -40,52 +40,97 @@
                             </div>
                         </div>
                         
-                        <div class="list-group">
-                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active" id="day2">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1" id="forecast-title">Current Day + 1</h5>
-                                    <small></small>
+                        <div class="list-group" id="tempContainer">
+                            <!-- <a href="#" class="list-group-item list-group-item-action flex-column align-items-start border border-dark" id="day2">
+                                <div class="d-flex w-100">
+                                    <h5 class="mb-1 pr-2" id="nextDate"></h5>
+                                    <small class="mx-1"></small>
+                                    <i class="ml-1"></i>
+                                    
+                                    
                                 </div>
-                                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                                <i class="text-muted"></i>
+                                <ul class="list-unstyled">
+                                    
+                                    <li><p id="temp">Temperature: <span class="nextTemp"></span></p></li>
+                                    <li><p id="wind">Wind: <span id="nextWind"></span></p></li>
+                                    <li><p id="humidity">Humidity: <span id="nextHum"></span></p></li>
+                                    <li><p id="uv-index">UV Index: <span id="nextUvi"></span></p></li>
+                                </ul>
+                                
                                 <small class="sm-date"></small>
                             </a>
-                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active" id="day3">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1" id="forecast-title">Current Day + 1</h5>
-                                    <small></small>
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" id="day3">
+                                <div class="d-flex w-100">
+                                    <h5 class="mb-1 pr-2" id="nextDate"></h5>
+                                    <small class="mx-1"></small>
+                                    <i class="ml-1"></i>
+                                    
+                                    
                                 </div>
-                                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                                <i class="text-muted"></i>
+                                <ul class="list-unstyled">
+                                    
+                                    <li><p id="temp">Temperature: <span class="nextTemp" data-temp=""></span></p></li>
+                                    <li><p id="wind">Wind: <span id="nextWind"></span></p></li>
+                                    <li><p id="humidity">Humidity: <span id="nextHum"></span></p></li>
+                                    <li><p id="uv-index">UV Index: <span id="nextUvi"></span></p></li>
+                                </ul>
+                                
                                 <small class="sm-date"></small>
                             </a>
-                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active" id="day4">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1" id="forecast-title">Current Day + 1</h5>
-                                    <small></small>
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" id="day4">
+                                <div class="d-flex w-100">
+                                    <h5 class="mb-1 pr-2" id="nextDate"></h5>
+                                    <small class="mx-1"></small>
+                                    <i class="ml-1"></i>
+                                    
+                                    
                                 </div>
-                                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                                <i class="text-muted"></i>
+                                <ul class="list-unstyled">
+                                    
+                                    <li><p id="temp">Temperature: <span class="nextTemp" data-temp=""></span></p></li>
+                                    <li><p id="wind">Wind: <span id="nextWind"></span></p></li>
+                                    <li><p id="humidity">Humidity: <span id="nextHum"></span></p></li>
+                                    <li><p id="uv-index">UV Index: <span id="nextUvi"></span></p></li>
+                                </ul>
+                                
                                 <small class="sm-date"></small>
                             </a>
-                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active" id="day5">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1" id="forecast-title">Current Day + 1</h5>
-                                    <small></small>
+                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" id="day5">
+                                <div class="d-flex w-100">
+                                    <h5 class="mb-1 pr-2" id="nextDate"></h5>
+                                    <small class="mx-1"></small>
+                                    <i class="ml-1"></i>
+                                    
+                                    
                                 </div>
-                                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                                <i class="text-muted"></i>
+                                <ul class="list-unstyled">
+                                    
+                                    <li><p id="temp">Temperature: <span class="nextTemp"></span></p></li>
+                                    <li><p id="wind">Wind: <span id="nextWind"></span></p></li>
+                                    <li><p id="humidity">Humidity: <span id="nextHum"></span></p></li>
+                                    <li><p id="uv-index">UV Index: <span id="nextUvi"></span></p></li>
+                                </ul>
+                                
                                 <small class="sm-date"></small>
                             </a>
                             <a href="#" class="list-group-item list-group-item-action flex-column align-items-start" id="day6">
-                                <div class="d-flex w-100  justify-content-between">
-                                    <h5 class="mb-1">Current Day + 2 </h5>
-                                    <i class="text-muted"></i>
-                                    <small class="sm-date"></small>
+                                <div class="d-flex w-100">
+                                    <h5 class="mb-1 pr-2" id="nextDate"></h5>
+                                    <small class="mx-1"></small>
+                                    <i class="ml-1"></i>
+                                    
+                                    
                                 </div>
-                                <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-                                <small class="text-muted">Donec id elit non mi porta.</small>
-                            </a>
+                                <ul class="list-unstyled">
+                                    
+                                    <li><p id="temp">Temperature: <span id="nextTemp"></span></p></li>
+                                    <li><p id="wind">Wind: <span id="nextWind"></span></p></li>
+                                    <li><p id="humidity">Humidity: <span id="nextHum"></span></p></li>
+                                    <li><p id="uv-index">UV Index: <span id="nextUvi"></span></p></li>
+                                </ul>
+                                
+                                <small class="sm-date"></small>
+                            </a> -->
                         </div>
                     </div>
                     <div class="col border border-dark"></div>
