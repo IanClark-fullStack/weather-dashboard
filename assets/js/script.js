@@ -56,10 +56,10 @@ var navToggle = $('<span>');
 var navCollapse = $('<div>');
 // Generate Nav UL 
 var navUl = $('<ul>');
-// Generate Nav Li 
-var navLi = $('<li>');
-// Generate Nav Links 
-var navLink = $('<a>');
+// // Generate Nav Li 
+// var navLi = $('<li>');
+// // Generate Nav Links 
+// var navLink = $('<a>');
 
 // Get Main 
 var mainWrapper = $('main');
@@ -78,7 +78,10 @@ var cityTitle = $('<h3>');
 weatherRow.append(cityTitle);
 var dateToday; 
 
-
+// Forecast Elements 
+var forecastIcon = $('#forecast-icon');
+var smallDate = $('.sm-date');
+var listGroup = ('.list-group');
 // Get footer
 var footerWrapper = $('footer');
 
@@ -92,9 +95,15 @@ var autoInput = $('<div>');
 
 // Global Form Vairables 
 var cityInput;
+var localArray = [];
 
-
-
+// Array of Daily Forecast Content 
+var $day2 = $('#day2');
+var $day3 = $('#day3');
+var $day4 = $('#day4');
+var $day5 = $('#day5');
+var $day6 = $('#day6');
+var $dailyArray = [$day2, $day3, $day4, $day5, $day6];
 
 // Click Event Handlers to Start off Everything API
 
@@ -109,6 +118,12 @@ $(formSubmit).on('click', function(event) {
 });
 
 // Handling Clicks on Previously Searched Cities 
+
+var navSubmit = function(event) {
+    event.preventDefault();
+    var prevInput = $(this).text();
+    getLocationData(prevInput); 
+}
 
 
 // Building The API Call 
@@ -144,19 +159,23 @@ var getLocationData = function (byCity) { // byCity (formerly known as cityInput
         .catch(function (error) {
         alert('Unable to connect');
         });
-};
+};     
 
 // Formerly known as data
 var passLocationData = function (dataArray) {
-    
+    // Local storage todo
     var nameFromData = dataArray[0].name; // City Name
     cityTitle.text(nameFromData);
     var latFromData = dataArray[0].lat; 
     var lonFromData = dataArray[0].lon;
+    if (localArray.indexOf(nameFromData) === -1) {
+        localArray.push(nameFromData);
+    }
+    
+    console.log(localArray);
     // Store the Value in localStorage
-    // var coordObject = {'latitude': latFromData, 'longitude': lonFromData}; 
-    localStorage.setItem(nameFromData, JSON.stringify({'latitude': latFromData, 'longitude': lonFromData}));
-
+    localStorage.setItem('cities', JSON.stringify(localArray));
+    
     // Build One Call API Link 
     var weatherFromCity = `https://api.openweathermap.org/data/2.5/onecall?lat=${latFromData}&lon=${lonFromData}&units=imperial&appid=0fd53ef282c951d78c31e6297a8aa1a5`;
 
@@ -178,9 +197,12 @@ var passLocationData = function (dataArray) {
 
 }
 
+
+
 var setWeatherData = function (dataConditions) {
     var mostCurrent = $(dataConditions.current.weather); // main, id, icon, etc Object
     var weatherName = mostCurrent[0].main; // Clouds
+    console.log(weatherName);
     // Switch Icons 
     switch (weatherName) {
         case 'Clouds':
@@ -211,11 +233,56 @@ var setWeatherData = function (dataConditions) {
             currentIcon.attr('class', 'fas fa-smog');
             break;
     }
+
+    var dailyValues = dataConditions.daily;
+    console.log(dailyValues);
+
+    for (let i=0; i<$dailyArray.length; i++) {
+        var currentDayId = $dailyArray[i];
+        var currentDayData = dailyValues[i+1];
+        console.log(currentDayData);
+        var currentDayIcon = currentDayData.weather[0].main; // Gets weeklong weather 
+        var forecastIcon = $(currentDayId.find('i'));
+        console.log(currentDayIcon)
+        var forecastDate = new Date(currentDayData.dt*1000).toLocaleDateString();
+        switch (currentDayIcon) {
+            case 'Clouds':
+                forecastIcon.attr('class', 'fas fa-cloud');
+                break;
+            case 'Thunderstorm':
+                forecastIcon.attr('class', 'fas fa-bolt');
+                break;
+            case 'Drizzle':
+                forecastIcon.attr('class', 'fas fa-cloud-sun-rain');
+                break;
+            case 'Rain':
+                forecastIcon.attr('class', 'fas fa-cloud-rain');
+                break;
+            case 'Snow':
+                forecastIcon.attr('class', 'fas fa-snowflake');
+                break;
+            case 'Clear':
+                forecastIcon.attr('class', 'fas fa-sun');
+                break;
+            case 'Fog':
+                forecastIcon.attr('class', 'fas fa-smog');
+                break;
+            case 'Mist':
+                forecastIcon.attr('class', 'fas fa-cloud-rain');
+                break;
+            case 'Smoke':
+                forecastIcon.attr('class', 'fas fa-smog');
+                break;
+        }
+    }
+    // Conditionals for Forecast Icons 
+
     // Current Weather Conditions from Server
     var dateToday = $('#current-date');
     // Create a new Date Instance by Converting Unix * MS, and formatting in readable terms 
     var convertUnix = new Date(dataConditions.current.dt*1000).toLocaleDateString();
-    console.log(convertUnix);
+    
+
     dateToday.text(convertUnix);
     var tempVal = $('#tempValue'); // span
     tempVal.text(dataConditions.current.temp);
@@ -231,6 +298,35 @@ var setWeatherData = function (dataConditions) {
 
 // 1. Dynamically Apply Components and Paint them to the Page
 function generateComponents() {
+
+    var storedCities = JSON.parse(localStorage.getItem('cities'));
+
+
+    if (storedCities !== null) {
+        localArray = storedCities;
+    console.log(localArray);
+    }
+    let j = 0; 
+    while (j<5) {
+        // Generate Nav Li 
+        var navLi = $('<li>');
+        // Generate Li 
+        navLi.attr('class', 'nav-item');
+        navUl.append(navLi);
+        // Generate Nav Links
+        // Generate Nav Links 
+        var navLink = $('<a>');
+        navLink.attr({
+            class: 'nav-link',
+            href: '#'
+        });
+        navLink.text(localArray[j]);
+        navLi.append(navLink);
+        navLink.on('click', navSubmit);
+        j++;
+    }
+
+    
     // Generate Nav Bar 
     navigation.attr('class', 'navbar navbar-expand-md navbar-light bg-light');
     headerWrapper.append(navigation);
@@ -263,16 +359,7 @@ function generateComponents() {
     // Generate Ul 
     navUl.attr('class', 'navbar-nav');
     navCollapse.append(navUl);
-    // Generate Li 
-    navLi.attr('class', 'nav-item');
-    navUl.append(navLi);
-    // Generate Nav Links
-    navLink.attr({
-        class: 'nav-link',
-        href: '#'
-    });
-    navLink.text('getFromLocal');
-    navLi.append(navLink);
+
 
 
     // Generate Form Styles 
@@ -295,16 +382,20 @@ function generateComponents() {
     formSubmit.attr('id', 'citySubmit');
     autoInput.append(formSubmit);
 
+   
+
     // Generate Section Components
     // If Local Stoarage Values Are NULL, display none to list items 
 
-    // generateWeather(); // 2. 
-    
+    // Generate Event Listeners for Nav Items 
+    // generateListener();
     
     
     
 }
-
+// var generateListener = function() {
+//     for (i=0; i<localArray.length; )
+// }
 //
 // function generateWeather() {
 //     // var weatherRow = $('#weather-info');
