@@ -78,7 +78,7 @@ var navSubmit = function(event) {
 }
 // Building The API Call 
 var getLocationData = function (byCity) { // byCity (formerly known as cityInput)
-    var dataFromCity = `http://api.openweathermap.org/geo/1.0/direct?q=${byCity}&limit=5&appid=0fd53ef282c951d78c31e6297a8aa1a5`;
+    var dataFromCity = `https://api.openweathermap.org/geo/1.0/direct?q=${byCity}&limit=5&appid=0fd53ef282c951d78c31e6297a8aa1a5`;
     fetch(dataFromCity)
         .then(function (response) { // When the server responds,
         // Then, execute a function with the Response Data Recieved
