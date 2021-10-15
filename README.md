@@ -14,3 +14,7 @@ If the user decides to search for a new / different location, save the previous 
 * Bootstrap
 * jQuery 
 * Font Awesome 
+
+## Preview 
+![image](https://user-images.githubusercontent.com/90655370/137425623-a5cf358e-f856-4f88-ba1e-9b6cf7a47262.png)
+![image](https://user-images.githubusercontent.com/90655370/137425770-879f6e14-37f5-421b-84de-87db3c372213.png)
