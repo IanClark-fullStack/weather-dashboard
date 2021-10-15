@@ -19,3 +19,6 @@ If the user decides to search for a new / different location, save the previous 
 
 ![image](https://user-images.githubusercontent.com/90655370/137425770-879f6e14-37f5-421b-84de-87db3c372213.png)
 ![image](https://user-images.githubusercontent.com/90655370/137425892-6c4b1b44-abdb-4968-a125-ca03ffa331aa.png)
+
+## License
+[MIT](https://github.com/IanClark-fullStack/weather-dashboard#:~:text=4%20days%20ago-,LICENSE,-Created%20License)
