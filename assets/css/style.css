@@ -1,7 +1,5 @@
-:root {
-    --anthropocene: "Anthropocene";
-}
+
 
 .custom-font { 
-    font-family: var(--anthropocene);
+    font-family: 'Anthropocene', sans-serif;
 }
