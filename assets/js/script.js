@@ -28,6 +28,7 @@ iconsWrapper.append(currentIcon);
 // Weather Info Section 
 var weatherRow = $('#weather-info');
 var cityTitle = $('<h3>');
+cityTitle.attr('class', 'display-2 custom-bright-text custom-font ml4')
 weatherRow.append(cityTitle);
 var dateToday; 
 
@@ -167,18 +168,18 @@ var setWeatherData = function (dataConditions) {
         var currentDayData = dailyValues[i+1];
         var $tempContainer = $('#tempContainer');
         var $scrollContainer = $('<a>');
-        $scrollContainer.attr('class', 'list-group-item list-group-item-action flex-column align-items-start border border-dark');
+        $scrollContainer.attr('class', 'list-group-item list-group-item flex-column align-items-start border custom-dark custom-section-border custom-mono custom-fade-text');
         $tempContainer.append($scrollContainer);
         var $divFlex = $('<div>');
-        $divFlex.attr('class', 'd-flex w-100');
+        $divFlex.attr('class', 'd-flex w-100 justify-content-around');
         $scrollContainer.append($divFlex);
-        var $h5 = $('<h5>');
-        $h5.attr('class', 'mb-1');
-        $h5.text(new Date(currentDayData.dt*1000).toLocaleDateString());
-        $divFlex.append($h5);
+        var $h2 = $('<h2>');
+        $h2.attr('class', 'mb-1 display-4');
+        $h2.text(new Date(currentDayData.dt*1000).toLocaleDateString());
+        $divFlex.append($h2);
         var $small = $('<small>');
-        $small.attr('class', 'mx-1');
-        $h5.append($small);
+        $small.attr('class', 'mx-1 h6');
+        $h2.append($small);
         var $i = $('<i>');
         // Reassign Icons
         var forecastIcon = $i;
@@ -296,7 +297,7 @@ function generateComponents() {
         // Generate Nav Links 
         var navLink = $('<a>');
         navLink.attr({
-            class: 'nav-link',
+            class: 'nav-link custom-fade-text',
             href: '#'
         });
         navLink.text(localArray[j]);
@@ -306,17 +307,17 @@ function generateComponents() {
         j++;
     }
     // Generate Nav Bar 
-    navigation.attr('class', 'navbar navbar-expand-md navbar-light bg-light');
+    navigation.attr('class', 'navbar navbar-expand-md justify-content-center');
     headerWrapper.append(navigation);
     // Generate Brand
-    navBrand.attr('class', 'navbar-brand');
-    navBrand.attr('style', 'font-family: var(--anthropocene);'); 
+    navBrand.attr('class', 'navbar-brand display-4 custom-text');
+    navBrand.attr('style', 'font-family: var(--anthropocene); font-size: calc(2.875rem + 2.7vw);'); 
     navBrand.attr('href', '#'); // main page
     navBrand.text('Weather App');
     navigation.append(navBrand);
     // Generate Button
     $(navBtn).attr({
-        class: 'navbar-toggler',
+        class: 'navbar-toggler custom-beige-bg custom-bright-blue',
         type: 'button',
         'data-toggle': 'collapse',
         'data-target': '#navbarNav',
@@ -333,26 +334,28 @@ function generateComponents() {
         class: 'collapse navbar-collapse',
         id: 'navbarNav'
     });
-    navigation.append(navCollapse);
+    formWrapper.append(navCollapse);
     // Generate Ul 
     navUl.attr('class', 'navbar-nav');
     navCollapse.append(navUl);
     // Generate Form Styles 
     // formWrapper.attr('class', 'form-inline'); 
-    headerWrapper.append(formWrapper);
+    navigation.append(formWrapper);
     formGroup.attr('class', 'form-row align-items-center justify-content-center');
     formWrapper.append(formGroup);
     formInput.attr({
         type: 'text',
-        class: 'mb-2',
+        class: 'mb-2 form-control-lg',
         id: 'inlineFormInput',
-        placeholder: 'mostRecenSearch'
+        placeholder: 'Search by City',
+        'aria-label': 'Large',
+        'aria-describedby': 'inputGroup-sizing-sm'
     });
     autoInput.attr('class', 'col-auto');
     formGroup.append(autoInput);
     autoInput.append(formInput);
     formGroup.append(autoInput);
-    formSubmit.attr('class', 'btn mb-2');
+    formSubmit.attr('class', 'btn mb-2 custom-fade-text custom-fade-bright');
     formSubmit.text('Search'); 
     formSubmit.attr('id', 'citySubmit');
     autoInput.append(formSubmit);

@@ -1,5 +1,50 @@
-
+:root {
+    --dark-blue: #04009A;
+    --fade-blue: #77ACF1;
+    --bright-blue: #3EDBF0;
+    --beige: #F0EBCC;
+}
 
 .custom-font { 
     font-family: 'Anthropocene', sans-serif;
+}
+
+.custom-dark {
+    background-color: var(--dark-blue);
+}
+
+.custom-text {
+    color: var(--beige);
+}
+
+.custom-dark-text {
+    color: var(--dark-blue);
+}
+
+.custom-fade-text {
+    color: var(--fade-blue);
+}
+.custom-mono {
+    font-family: 'Courier New', Courier, monospace;
+}
+.custom-bright-text {
+    color: var(--bright-blue);
+}
+
+.custom-beige-bg {
+    background-color: var(--beige);
+}
+.custom-beige-text {
+    color: var(--beige);
+}
+.custom-fade-bright:hover {
+    color: var(--beige) !important;
+}
+
+.custom-fade-border {
+    border: 4px solid var(--fade-blue);
+}
+
+.custom-section-border {
+    border-bottom: 4px solid var(--fade-blue);
 }
